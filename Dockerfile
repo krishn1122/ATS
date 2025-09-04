@@ -26,8 +26,8 @@ COPY main.py .
 # Create necessary directories
 RUN mkdir -p logs uploads
 
-# Expose port (Railway will provide PORT env var)
-EXPOSE $PORT
+# Railway provides PORT environment variable
+EXPOSE 5000
 
 # Run the application
 CMD ["python", "main.py"]
