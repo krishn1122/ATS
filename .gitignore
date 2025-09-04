@@ -7,6 +7,9 @@
 .env.test
 .env.production
 
+# Railway deployment
+.railway/
+
 # Python
 __pycache__/
 *.py[cod]

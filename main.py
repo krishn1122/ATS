@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 """
-Smart ATS - Main Launcher Script
-Validates setup and provides startup options
+Smart ATS - Railway Deployment Launcher
+Supports both local development and Railway production deployment
 """
 
 import sys
 import subprocess
 import os
+import threading
+import time
 from pathlib import Path
+
+# Add current directory to Python path
+sys.path.append(str(Path(__file__).parent))
 
 def check_setup():
     """Run setup validation"""
@@ -24,6 +29,73 @@ def check_setup():
     except Exception as e:
         print(f"Setup validation failed: {e}")
         return False
+
+def start_backend():
+    """Start the FastAPI backend server"""
+    try:
+        import uvicorn
+        port = int(os.environ.get("BACKEND_PORT", 8001))
+        uvicorn.run(
+            "backend.app.main:app",
+            host="0.0.0.0",
+            port=port,
+            log_level="info",
+            reload=False
+        )
+    except Exception as e:
+        print(f"Backend startup error: {e}")
+
+def start_frontend():
+    """Start the Flask frontend server"""
+    try:
+        # Import Flask app
+        from frontend.app import app
+        
+        # Configure for production
+        app.config['ENV'] = 'production'
+        app.config['DEBUG'] = False
+        
+        port = int(os.environ.get("PORT", 5000))
+        app.run(
+            host="0.0.0.0",
+            port=port,
+            debug=False
+        )
+    except Exception as e:
+        print(f"Frontend startup error: {e}")
+        sys.exit(1)
+
+def railway_deployment():
+    """Handle Railway deployment"""
+    print("🚀 Starting Smart ATS on Railway...")
+    
+    # Validate environment variables
+    required_vars = ["GOOGLE_API_KEY", "SECRET_KEY"]
+    missing_vars = [var for var in required_vars if not os.environ.get(var)]
+    
+    if missing_vars:
+        print(f"❌ Missing required environment variables: {', '.join(missing_vars)}")
+        print("Please set these variables in your Railway dashboard.")
+        sys.exit(1)
+    
+    print("✅ Environment variables validated")
+    
+    # For Railway deployment - single service mode
+    deployment_mode = os.environ.get("DEPLOYMENT_MODE", "frontend")
+    
+    if deployment_mode == "backend":
+        print("Starting backend service...")
+        start_backend()
+    else:
+        print("Starting frontend service...")
+        # Start backend in background thread for integrated deployment
+        if not os.environ.get("BACKEND_URL") or os.environ.get("BACKEND_URL") == "http://localhost:8000":
+            print("Starting integrated backend...")
+            backend_thread = threading.Thread(target=start_backend, daemon=True)
+            backend_thread.start()
+            time.sleep(3)  # Give backend time to start
+        
+        start_frontend()
 
 def start_services():
     """Start backend and frontend services"""
@@ -53,10 +125,17 @@ def start_services():
         return False
 
 def main():
-    """Main function"""
+    """Main function - detects environment and runs accordingly"""
     print("=" * 60)
     print("🚀 Smart ATS - Professional Resume Analysis System")
     print("=" * 60)
+    
+    # Check if running on Railway
+    if os.environ.get("RAILWAY_ENVIRONMENT") or os.environ.get("PORT"):
+        railway_deployment()
+        return True
+    
+    # Local development mode
     
     if len(sys.argv) > 1:
         if sys.argv[1] == "--test":
@@ -75,7 +154,7 @@ def main():
             print("  python main.py --help    - Show this help")
             return True
     
-    # Interactive mode
+    # Interactive mode for local development
     print("\\nOptions:")
     print("1. Validate setup")
     print("2. Start services")

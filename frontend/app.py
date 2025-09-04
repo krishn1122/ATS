@@ -177,5 +177,9 @@ def internal_error(e):
     """Handle 500 errors"""
     return render_template('500.html'), 500
 
+def create_app():
+    """Create and configure Flask app"""
+    return app
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

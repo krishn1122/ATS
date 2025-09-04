@@ -7,6 +7,26 @@
 
 A commercial-grade AI-powered Application Tracking System (ATS) that analyzes resumes against job descriptions using Google's Gemini AI. The system provides comprehensive analysis including grammar checking, keyword matching, format evaluation, and readability scoring with professional UI and animations.
 
+## 🚀 Live Demo
+
+[**Try the live application**](https://your-railway-app.railway.app) 🔗
+
+> **Note**: Replace the URL above with your actual Railway deployment URL
+
+## 🌐 Deploy on Railway
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template)
+
+### Quick Deploy Steps:
+1. Click the Railway button above
+2. Connect your GitHub repository  
+3. Set environment variables:
+   - `GOOGLE_API_KEY` (from Google AI Studio)
+   - `SECRET_KEY` (generate with: `python -c "import secrets; print(secrets.token_hex(32))"`)
+4. Deploy and get your public URL!
+
+For detailed deployment instructions, see [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)
+
 ## 🚀 Features
 
 ### Core Analysis Features
