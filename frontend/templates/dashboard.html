@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics Dashboard - Smart ATS{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="text-center mb-5" data-aos="fade-up">
+        <h1 class="fw-bold text-primary">Analytics Dashboard</h1>
+        <p class="lead text-muted">Comprehensive insights and analytics for resume analysis</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="result-card text-center h-100">
+                <div class="metric-icon mb-3">
+                    <i class="fas fa-file-alt fa-3x text-primary"></i>
+                </div>
+                <h3 class="fw-bold text-primary" id="totalAnalyses">0</h3>
+                <p class="text-muted mb-0">Total Analyses</p>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="result-card text-center h-100">
+                <div class="metric-icon mb-3">
+                    <i class="fas fa-chart-line fa-3x text-success"></i>
+                </div>
+                <h3 class="fw-bold text-success" id="averageScore">0%</h3>
+                <p class="text-muted mb-0">Average Score</p>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="result-card text-center h-100">
+                <div class="metric-icon mb-3">
+                    <i class="fas fa-check-circle fa-3x text-info"></i>
+                </div>
+                <h3 class="fw-bold text-info" id="successRate">0%</h3>
+                <p class="text-muted mb-0">Success Rate</p>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="result-card text-center h-100">
+                <div class="metric-icon mb-3">
+                    <i class="fas fa-tasks fa-3x text-warning"></i>
+                </div>
+                <h3 class="fw-bold text-warning" id="completedAnalyses">0</h3>
+                <p class="text-muted mb-0">Completed</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row g-4 mb-5">
+        <!-- Score Distribution Chart -->
+        <div class="col-lg-6" data-aos="fade-up">
+            <div class="result-card">
+                <h4 class="fw-bold text-primary mb-4">
+                    <i class="fas fa-pie-chart me-2"></i>Score Distribution
+                </h4>
+                <div class="chart-container">
+                    <canvas id="scoreChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Issues Chart -->
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="result-card">
+                <h4 class="fw-bold text-primary mb-4">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Common Issues
+                </h4>
+                <div class="chart-container">
+                    <canvas id="issuesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analysis Trends -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-12" data-aos="fade-up">
+            <div class="result-card">
+                <h4 class="fw-bold text-primary mb-4">
+                    <i class="fas fa-chart-area me-2"></i>Analysis Trends
+                </h4>
+                <div class="chart-container">
+                    <canvas id="trendsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Insights Section -->
+    <div class="row g-4">
+        <!-- Performance Insights -->
+        <div class="col-lg-6" data-aos="fade-up">
+            <div class="result-card">
+                <h4 class="fw-bold text-primary mb-4">
+                    <i class="fas fa-lightbulb me-2"></i>Performance Insights
+                </h4>
+                
+                <div class="insight-item mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="insight-icon bg-success text-white me-3">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold mb-0">Score Improvement</h6>
+                            <small class="text-muted">Average score increased by 15% this month</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-item mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="insight-icon bg-warning text-white me-3">
+                            <i class="fas fa-exclamation"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold mb-0">Common Issue</h6>
+                            <small class="text-muted">Grammar issues found in 60% of resumes</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-item mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="insight-icon bg-info text-white me-3">
+                            <i class="fas fa-target"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-semibold mb-0">Keyword Optimization</h6>
+                            <small class="text-muted">Resume-job matching improved by 20%</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="result-card">
+                <h4 class="fw-bold text-primary mb-4">
+                    <i class="fas fa-star me-2"></i>Top Recommendations
+                </h4>
+                
+                <div class="recommendation-item mb-3">
+                    <div class="d-flex">
+                        <div class="recommendation-number me-3">1</div>
+                        <div>
+                            <h6 class="fw-semibold">Use Action Verbs</h6>
+                            <p class="text-muted small mb-0">Start bullet points with strong action verbs like "implemented," "managed," or "developed"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendation-item mb-3">
+                    <div class="d-flex">
+                        <div class="recommendation-number me-3">2</div>
+                        <div>
+                            <h6 class="fw-semibold">Quantify Achievements</h6>
+                            <p class="text-muted small mb-0">Include numbers and percentages to demonstrate impact and results</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendation-item mb-3">
+                    <div class="d-flex">
+                        <div class="recommendation-number me-3">3</div>
+                        <div>
+                            <h6 class="fw-semibold">Tailor Keywords</h6>
+                            <p class="text-muted small mb-0">Match resume keywords with job description requirements</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendation-item mb-3">
+                    <div class="d-flex">
+                        <div class="recommendation-number me-3">4</div>
+                        <div>
+                            <h6 class="fw-semibold">Consistent Formatting</h6>
+                            <p class="text-muted small mb-0">Maintain consistent fonts, spacing, and bullet point styles</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mt-5">
+        <div class="col-lg-12 text-center">
+            <div class="result-card">
+                <h4 class="fw-bold text-primary mb-4">Quick Actions</h4>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="/" class="btn btn-primary btn-lg">
+                        <i class="fas fa-upload me-2"></i>New Analysis
+                    </a>
+                    <button class="btn btn-outline-primary btn-lg" onclick="location.reload()">
+                        <i class="fas fa-sync-alt me-2"></i>Refresh Data
+                    </button>
+                    <button class="btn btn-outline-secondary btn-lg" onclick="exportDashboard()">
+                        <i class="fas fa-download me-2"></i>Export Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+    });
+
+    // Initialize dashboard
+    if (window.Dashboard) {
+        new window.Dashboard();
+    }
+});
+
+// Export dashboard function
+function exportDashboard() {
+    // Create a simple dashboard export
+    const dashboardData = {
+        timestamp: new Date().toISOString(),
+        stats: {
+            totalAnalyses: document.getElementById('totalAnalyses')?.textContent || '0',
+            averageScore: document.getElementById('averageScore')?.textContent || '0%',
+            successRate: document.getElementById('successRate')?.textContent || '0%',
+            completedAnalyses: document.getElementById('completedAnalyses')?.textContent || '0'
+        }
+    };
+
+    const dataStr = JSON.stringify(dashboardData, null, 2);
+    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+    
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(dataBlob);
+    link.download = `ats-dashboard-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+}
+</script>
+
+<style>
+.insight-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.recommendation-number {
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.recommendation-item {
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    transition: var(--transition);
+}
+
+.recommendation-item:hover {
+    background: #f0f9ff;
+    border-color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.insight-item {
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    transition: var(--transition);
+}
+
+.insight-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow);
+}
+</style>
+{% endblock %}

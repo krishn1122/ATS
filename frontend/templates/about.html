@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}About - Smart ATS{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="text-center mb-5" data-aos="fade-up">
+        <h1 class="fw-bold text-primary">About Smart ATS</h1>
+        <p class="lead text-muted">Professional AI-powered resume analysis system</p>
+    </div>
+
+    <!-- Mission Section -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="result-card text-center" data-aos="fade-up">
+                <h3 class="fw-bold text-primary mb-4">Our Mission</h3>
+                <p class="lead">
+                    To help job seekers optimize their resumes and increase their chances of getting noticed 
+                    by Applicant Tracking Systems (ATS) and hiring managers through advanced AI analysis.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h5 class="fw-semibold">AI-Powered Analysis</h5>
+                <p class="text-muted">
+                    Uses Google's Gemini AI to provide comprehensive resume evaluation 
+                    with high accuracy and detailed insights.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h5 class="fw-semibold">Multiple Format Support</h5>
+                <p class="text-muted">
+                    Supports both PDF and DOCX resume formats with intelligent 
+                    text extraction and parsing capabilities.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h5 class="fw-semibold">Detailed Analytics</h5>
+                <p class="text-muted">
+                    Provides grammar checking, repetition analysis, format evaluation, 
+                    and keyword matching with actionable recommendations.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h5 class="fw-semibold">Secure & Private</h5>
+                <p class="text-muted">
+                    Your resume data is processed securely and not stored permanently. 
+                    Privacy and data security are our top priorities.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technology Stack -->
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <div class="result-card" data-aos="fade-up">
+                <h3 class="fw-bold text-primary text-center mb-4">Technology Stack</h3>
+                <div class="row g-4">
+                    <div class="col-md-4 text-center">
+                        <div class="tech-item">
+                            <i class="fab fa-python fa-3x text-primary mb-3"></i>
+                            <h6 class="fw-semibold">Backend</h6>
+                            <p class="text-muted small">FastAPI, Python</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="tech-item">
+                            <i class="fab fa-html5 fa-3x text-danger mb-3"></i>
+                            <h6 class="fw-semibold">Frontend</h6>
+                            <p class="text-muted small">Flask, Bootstrap, JavaScript</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="tech-item">
+                            <i class="fas fa-brain fa-3x text-success mb-3"></i>
+                            <h6 class="fw-semibold">AI Engine</h6>
+                            <p class="text-muted small">Google Gemini AI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <div class="result-card" data-aos="fade-up">
+                <h3 class="fw-bold text-primary text-center mb-5">How It Works</h3>
+                <div class="row g-4">
+                    <div class="col-md-3 text-center">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <h6 class="fw-semibold">Upload</h6>
+                            <p class="text-muted small">Upload your resume (PDF/DOCX) and job description</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <h6 class="fw-semibold">Analyze</h6>
+                            <p class="text-muted small">AI analyzes content for grammar, keywords, and formatting</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <h6 class="fw-semibold">Score</h6>
+                            <p class="text-muted small">Get detailed scoring and improvement recommendations</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="step-item">
+                            <div class="step-number">4</div>
+                            <h6 class="fw-semibold">Improve</h6>
+                            <p class="text-muted small">Apply suggestions to optimize your resume</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="result-card" data-aos="fade-up">
+                <h3 class="fw-bold text-primary mb-4">Ready to Optimize Your Resume?</h3>
+                <p class="lead mb-4">
+                    Get started with our AI-powered ATS analysis and take your resume to the next level.
+                </p>
+                <a href="/" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-rocket me-2"></i>Start Analysis
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+    });
+});
+</script>
+
+<style>
+.tech-item {
+    padding: 2rem 1rem;
+    transition: var(--transition);
+}
+
+.tech-item:hover {
+    transform: translateY(-5px);
+}
+
+.step-item {
+    padding: 2rem 1rem;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 1rem;
+}
+</style>
+{% endblock %}
