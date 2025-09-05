@@ -1,28 +1,30 @@
 # Smart ATS - Professional Resume Analysis System
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.104%2B-green)](https://fastapi.tiangolo.com/)
-[![Flask](https://img.shields.io/badge/Flask-3.0%2B-lightgrey)](https://flask.palletsprojects.com/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-green)](https://fastapi.tiangolo.com/)
+[![Flask](https://img.shields.io/badge/Flask-3.0.0-lightgrey)](https://flask.palletsprojects.com/)
+[![Railway](https://img.shields.io/badge/Deploy-Railway-purple)](https://railway.app)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A commercial-grade AI-powered Application Tracking System (ATS) that analyzes resumes against job descriptions using Google's Gemini AI. The system provides comprehensive analysis including grammar checking, keyword matching, format evaluation, and readability scoring with professional UI and animations.
+A commercial-grade AI-powered Application Tracking System (ATS) that analyzes resumes against job descriptions using Google's Gemini AI. The system provides comprehensive analysis including percentage scoring, grammar checking, keyword matching, format evaluation, and readability assessment with a professional UI and smooth animations.
 
 ## 🚀 Live Demo
 
-[**Try the live application**](https://your-railway-app.railway.app) 🔗
+[**Deploy on Railway**](https://railway.app/template/HjCfBt) 🚀
 
-> **Note**: Replace the URL above with your actual Railway deployment URL
+> **Note**: Click above to deploy your own instance on Railway
 
-## 🌐 Deploy on Railway
+## 🌐 Quick Deploy on Railway
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/HjCfBt)
 
 ### Quick Deploy Steps:
 1. Click the Railway button above
-2. Connect your GitHub repository  
+2. Connect your GitHub repository: `https://github.com/krishn1122/ATS`
 3. Set environment variables:
-   - `GOOGLE_API_KEY` (from Google AI Studio)
+   - `GOOGLE_API_KEY` (from [Google AI Studio](https://makersuite.google.com/app/apikey))
    - `SECRET_KEY` (generate with: `python -c "import secrets; print(secrets.token_hex(32))"`)
+   - `DEPLOYMENT_MODE=frontend` (for integrated deployment)
 4. Deploy and get your public URL!
 
 For detailed deployment instructions, see [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)
@@ -37,12 +39,13 @@ For detailed deployment instructions, see [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOY
 - **Professional Dashboard**: Analytics and insights visualization
 
 ### Analysis Components
-1. **Percentage Score (0-100%)**: Overall resume alignment with job description
-2. **Grammar Analysis**: Identifies and suggests fixes for grammatical errors
-3. **Word Repetition**: Detects overused words and suggests improvements
-4. **Format & Readability**: Evaluates structure, formatting, and readability score
-5. **Keyword Matching**: Identifies missing keywords from job requirements
-6. **Profile Summary**: AI-generated insights and recommendations
+1. **Overall ATS Score (0-100%)**: Comprehensive resume-job description alignment
+2. **Job Description Match**: Keyword alignment and relevance scoring
+3. **Grammar Analysis**: ATS-critical formatting and structure issues
+4. **Word Repetition**: Detection of overused terms with improvement suggestions
+5. **Format & Readability**: Document structure and ATS parsing compatibility
+6. **Missing Keywords**: Critical job requirement terms absent from resume
+7. **Profile Summary**: AI-generated career insights and recommendations
 
 ### Technical Features
 - **FastAPI Backend**: High-performance async API with automatic documentation
@@ -58,28 +61,46 @@ For detailed deployment instructions, see [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOY
 Smart ATS/
 ├── backend/                 # FastAPI Backend
 │   ├── app/
+│   │   ├── __init__.py
 │   │   └── main.py         # Main FastAPI application
 │   ├── models/
+│   │   ├── __init__.py
 │   │   └── ats_models.py   # Pydantic data models
 │   ├── services/
+│   │   ├── __init__.py
 │   │   └── ai_service.py   # AI analysis service
 │   └── utils/
+│       ├── __init__.py
 │       └── document_parser.py # PDF/DOCX parsing utilities
 ├── frontend/                # Flask Frontend
 │   ├── app.py              # Main Flask application
 │   ├── static/
-│   │   ├── css/style.css   # Custom styles and animations
-│   │   └── js/main.js      # Frontend JavaScript
+│   │   ├── css/
+│   │   │   └── style.css   # Custom styles and animations
+│   │   └── js/
+│   │       └── main.js      # Frontend JavaScript
 │   └── templates/          # Jinja2 templates
 │       ├── base.html       # Base template
 │       ├── index.html      # Home page
 │       ├── results.html    # Results page
-│       └── dashboard.html  # Analytics dashboard
+│       ├── dashboard.html  # Analytics dashboard
+│       ├── about.html      # About page
+│       ├── 404.html        # Error pages
+│       └── 500.html
 ├── logs/                   # Application logs
 ├── uploads/                # Temporary file storage
 ├── config.py               # Configuration management
+├── main.py                 # Railway-compatible launcher
 ├── requirements.txt        # Python dependencies
+├── Dockerfile              # Railway deployment
+├── railway.json            # Railway configuration
 ├── docker-compose.yml      # Docker deployment
+├── start.bat               # Windows startup script
+├── start.sh                # Linux/Mac startup script
+├── test_setup.py           # Setup validation
+├── test_railway.py         # Railway deployment test
+├── RAILWAY_DEPLOYMENT.md   # Deployment guide
+├── RAILWAY_CHECKLIST.md    # Deployment checklist
 └── README.md              # This file
 ```
 
@@ -107,8 +128,8 @@ Smart ATS/
 
 ## 📋 Prerequisites
 
-- Python 3.8 or higher
-- Google Gemini AI API key
+- Python 3.10 or higher
+- Google Gemini AI API key ([Get yours here](https://makersuite.google.com/app/apikey))
 - pip (Python package installer)
 - Git (for cloning the repository)
 
@@ -116,8 +137,8 @@ Smart ATS/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/smart-ats.git
-cd smart-ats
+git clone https://github.com/krishn1122/ATS.git
+cd ATS
 ```
 
 ### 2. Set Up Environment
@@ -137,11 +158,18 @@ pip install -r requirements.txt
 
 ### 4. Run the Application
 
-#### Option A: Use Startup Script (Recommended)
+#### Option A: Use Main Launcher (Recommended)
+
+```bash
+# Run integrated mode (both frontend + backend)
+python main.py
+```
+
+#### Option B: Use Startup Script
 
 **Windows:**
 ```bash
-./start.bat
+.\start.bat
 ```
 
 **Linux/Mac:**
@@ -150,7 +178,7 @@ chmod +x start.sh
 ./start.sh
 ```
 
-#### Option B: Manual Startup
+#### Option C: Manual Startup
 
 **Terminal 1 - Backend:**
 ```bash
@@ -169,6 +197,41 @@ python app.py
 - **Backend API**: http://localhost:8000
 - **API Documentation**: http://localhost:8000/api/docs
 - **Analytics Dashboard**: http://localhost:5000/dashboard
+
+## 🚀 Railway Deployment
+
+### Automated Deployment
+
+1. **Fork Repository**: Fork this repository to your GitHub account
+2. **Deploy on Railway**: Click the button below
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/HjCfBt)
+
+3. **Set Environment Variables** in Railway dashboard:
+   ```bash
+   GOOGLE_API_KEY=your_google_api_key_here
+   SECRET_KEY=your_generated_secret_key_here
+   DEPLOYMENT_MODE=frontend
+   ```
+
+4. **Access Your App**: Railway will provide a public URL
+
+### Manual Railway Setup
+
+```bash
+# Generate SECRET_KEY
+python -c "import secrets; print(secrets.token_hex(32))"
+
+# Push to GitHub
+git add .
+git commit -m "Railway deployment"
+git push origin main
+
+# Create Railway project and set environment variables
+# Deploy from GitHub repository
+```
+
+See [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md) for detailed instructions.
 
 ## 🐳 Docker Deployment
 
@@ -275,11 +338,14 @@ while True:
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
 | `GOOGLE_API_KEY` | Google Gemini AI API key | - | Yes |
-| `SECRET_KEY` | Flask secret key | - | Yes |
+| `SECRET_KEY` | Flask secret key (64+ chars) | - | Yes |
+| `DEPLOYMENT_MODE` | Deployment mode (`frontend` for Railway) | `frontend` | Railway |
 | `BACKEND_URL` | Backend API URL | http://localhost:8000 | No |
+| `FRONTEND_URL` | Frontend URL | http://localhost:5000 | No |
 | `MAX_CONTENT_LENGTH` | Max file size in bytes | 16777216 (16MB) | No |
 | `RATE_LIMIT` | API rate limit per minute | 60 | No |
 | `ANALYSIS_TIMEOUT` | Analysis timeout in seconds | 300 | No |
+| `LOG_LEVEL` | Logging level | INFO | No |
 
 ### File Upload Limits
 - **Supported Formats**: PDF, DOCX
@@ -367,7 +433,8 @@ pytest tests/test_api.py -v
 ### Development Setup
 ```bash
 # Clone your fork
-git clone https://github.com/your-username/smart-ats.git
+git clone https://github.com/krishn1122/ATS.git
+cd ATS
 
 # Create virtual environment
 python -m venv venv
@@ -376,16 +443,15 @@ venv\Scripts\activate     # Windows
 
 # Install development dependencies
 pip install -r requirements.txt
-pip install pytest black flake8
 
-# Run tests
-pytest
+# Run setup validation
+python test_setup.py
 
-# Format code
-black .
+# Run Railway deployment test
+python test_railway.py
 
-# Lint code
-flake8
+# Start development server
+python main.py
 ```
 
 ## 📄 License
@@ -403,9 +469,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support, please:
-1. Check the [Issues](https://github.com/your-username/smart-ats/issues) page
+1. Check the [Issues](https://github.com/krishn1122/ATS/issues) page
 2. Create a new issue with detailed information
-3. Join our [Discussions](https://github.com/your-username/smart-ats/discussions)
+3. Join our [Discussions](https://github.com/krishn1122/ATS/discussions)
+4. Review [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md) for deployment help
 
 ## 🗺️ Roadmap
 
