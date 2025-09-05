@@ -5,6 +5,17 @@ import logging
 from werkzeug.utils import secure_filename
 import time
 import json
+from werkzeug.middleware.proxy_fix import ProxyFix
+
+# Import backend for integrated mode
+try:
+    if os.environ.get('INTEGRATED_MODE') or os.environ.get('RAILWAY_ENVIRONMENT'):
+        from backend.app.main import app as backend_app
+        INTEGRATED_BACKEND = True
+    else:
+        INTEGRATED_BACKEND = False
+except ImportError:
+    INTEGRATED_BACKEND = False
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -14,7 +25,14 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-change-in-production')
 
 # Configuration
-BACKEND_URL = os.environ.get('BACKEND_URL', 'http://localhost:8000')
+# For Railway deployment, use relative URLs for API calls when integrated
+if os.environ.get('RAILWAY_ENVIRONMENT') or os.environ.get('PORT'):
+    # On Railway, backend API will be served from same domain/port
+    BACKEND_URL = ''  # Use relative URLs
+else:
+    # Local development
+    BACKEND_URL = os.environ.get('BACKEND_URL', 'http://localhost:8000')
+
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
 ALLOWED_EXTENSIONS = {'pdf', 'docx'}
 

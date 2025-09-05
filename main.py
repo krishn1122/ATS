@@ -34,7 +34,10 @@ def start_backend():
     """Start the FastAPI backend server"""
     try:
         import uvicorn
-        port = int(os.environ.get("BACKEND_PORT", 8001))
+        # Use Railway's PORT or default
+        port = int(os.environ.get("PORT", 8000))
+        
+        print(f"Starting FastAPI backend on port {port}")
         uvicorn.run(
             "backend.app.main:app",
             host="0.0.0.0",
@@ -44,6 +47,7 @@ def start_backend():
         )
     except Exception as e:
         print(f"Backend startup error: {e}")
+        sys.exit(1)
 
 def start_frontend():
     """Start the Flask frontend server"""
@@ -80,22 +84,32 @@ def railway_deployment():
     
     print("✅ Environment variables validated")
     
-    # For Railway deployment - single service mode
-    deployment_mode = os.environ.get("DEPLOYMENT_MODE", "frontend")
+    # Determine deployment mode
+    deployment_mode = os.environ.get("DEPLOYMENT_MODE", "backend")
+    print(f"Deployment mode: {deployment_mode}")
     
     if deployment_mode == "backend":
-        print("Starting backend service...")
+        print("Starting backend service on Railway main port...")
         start_backend()
-    else:
+    elif deployment_mode == "frontend":
         print("Starting frontend service...")
-        # Start backend in background thread for integrated deployment
-        if not os.environ.get("BACKEND_URL") or os.environ.get("BACKEND_URL") == "http://localhost:8000":
-            print("Starting integrated backend...")
-            backend_thread = threading.Thread(target=start_backend, daemon=True)
-            backend_thread.start()
-            time.sleep(3)  # Give backend time to start
-        
         start_frontend()
+    elif deployment_mode == "integrated":
+        print("Starting integrated service...")
+        # Use unified server
+        port = int(os.environ.get("PORT", 5000))
+        import uvicorn
+        uvicorn.run(
+            "unified_server:app",
+            host="0.0.0.0",
+            port=port,
+            log_level="info",
+            reload=False
+        )
+    else:
+        print(f"Unknown deployment mode: {deployment_mode}")
+        print("Defaulting to backend service...")
+        start_backend()
 
 def start_services():
     """Start backend and frontend services"""

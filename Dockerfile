@@ -22,6 +22,7 @@ COPY backend/ ./backend/
 COPY frontend/ ./frontend/
 COPY config.py .
 COPY main.py .
+COPY unified_server.py .
 
 # Create necessary directories
 RUN mkdir -p logs uploads
