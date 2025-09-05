@@ -1,13 +1,15 @@
 # Smart ATS Project .gitignore
 
-# Environment files
+# Environment files (with real credentials - DO NOT COMMIT)
 .env
 .env.local
 .env.development
 .env.test
 .env.production
-.env.example
-.env.railway
+
+# Keep these template files (DO NOT IGNORE):
+# .env.example - template for development
+# .env.railway - template for Railway deployment
 
 # Railway deployment
 .railway/
