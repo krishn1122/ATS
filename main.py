@@ -86,7 +86,15 @@ def railway_deployment():
     if deployment_mode == "backend":
         print("Starting backend service...")
         start_backend()
-    else:
+    elif deployment_mode == "integrated":
+        print("Starting integrated service...")
+        # Start backend in background thread for integrated deployment
+        print("Starting integrated backend...")
+        backend_thread = threading.Thread(target=start_backend, daemon=True)
+        backend_thread.start()
+        time.sleep(3)  # Give backend time to start
+        start_frontend()
+    else:  # Default to frontend mode
         print("Starting frontend service...")
         # Start backend in background thread for integrated deployment
         if not os.environ.get("BACKEND_URL") or os.environ.get("BACKEND_URL") == "http://localhost:8000":
