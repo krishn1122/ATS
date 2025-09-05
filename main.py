@@ -95,17 +95,9 @@ def railway_deployment():
         print("Starting frontend service...")
         start_frontend()
     elif deployment_mode == "integrated":
-        print("Starting integrated service...")
-        # Use unified server
-        port = int(os.environ.get("PORT", 5000))
-        import uvicorn
-        uvicorn.run(
-            "unified_server:app",
-            host="0.0.0.0",
-            port=port,
-            log_level="info",
-            reload=False
-        )
+        print("Starting integrated service (backend with frontend)...")
+        # Use the enhanced backend that now serves frontend content
+        start_backend()
     else:
         print(f"Unknown deployment mode: {deployment_mode}")
         print("Defaulting to backend service...")
