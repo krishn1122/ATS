@@ -1,15 +1,12 @@
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException, BackgroundTasks, Request
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
+from fastapi.responses import JSONResponse
 import os
 import logging
 from typing import Optional, Dict, Any
 import uuid
 from datetime import datetime
 from dotenv import load_dotenv
-from pathlib import Path
 
 # Load environment variables
 load_dotenv()
@@ -40,40 +37,10 @@ app = FastAPI(
     redoc_url="/api/redoc"
 )
 
-# Mount static files and templates for frontend integration
-# Check multiple possible paths for frontend files
-frontend_paths = [
-    Path("frontend"),  # Standard path
-    Path("../frontend"),  # From backend directory
-    Path("../../frontend"),  # From backend/app directory
-]
-
-static_path = None
-templates_path = None
-
-# Find the correct frontend path
-for base_path in frontend_paths:
-    if (base_path / "static").exists() and (base_path / "templates").exists():
-        static_path = base_path / "static"
-        templates_path = base_path / "templates"
-        logger.info(f"Found frontend files at: {base_path}")
-        break
-
-if static_path and static_path.exists():
-    app.mount("/static", StaticFiles(directory=str(static_path)), name="static")
-    logger.info(f"Mounted static files from: {static_path}")
-
-if templates_path and templates_path.exists():
-    templates = Jinja2Templates(directory=str(templates_path))
-    logger.info(f"Loaded templates from: {templates_path}")
-else:
-    templates = None
-    logger.warning("Frontend templates not found")
-
 # CORS middleware for frontend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for Railway deployment
+    allow_origins=["http://localhost:5000", "http://127.0.0.1:5000"],  # Flask frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -105,67 +72,10 @@ def get_document_parser():
 # In-memory storage for analysis results (in production, use a database)
 analysis_results: Dict[str, AnalysisResult] = {}
 
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    """Serve the home page"""
-    if templates:
-        try:
-            return templates.TemplateResponse("index.html", {"request": request})
-        except Exception as e:
-            logger.error(f"Error serving home page: {e}")
-    
-    # Fallback HTML if templates not available
-    return HTMLResponse(content="""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Smart ATS</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="container mt-5">
-            <h1 class="text-center">Smart ATS - Resume Analysis</h1>
-            <div class="alert alert-info">
-                <p><strong>Backend API is running!</strong></p>
-                <p>API Documentation: <a href="/api/docs">/api/docs</a></p>
-                <p>Health Check: <a href="/api/health">/api/health</a></p>
-            </div>
-        </div>
-    </body>
-    </html>
-    """)
-
-@app.get("/dashboard", response_class=HTMLResponse)
-async def dashboard(request: Request):
-    """Serve the dashboard page"""
-    if templates:
-        try:
-            return templates.TemplateResponse("dashboard.html", {"request": request})
-        except Exception as e:
-            logger.error(f"Error serving dashboard: {e}")
-    return HTMLResponse(content="<h1>Dashboard not available</h1>")
-
-@app.get("/about", response_class=HTMLResponse)
-async def about(request: Request):
-    """Serve the about page"""
-    if templates:
-        try:
-            return templates.TemplateResponse("about.html", {"request": request})
-        except Exception as e:
-            logger.error(f"Error serving about page: {e}")
-    return HTMLResponse(content="<h1>About page not available</h1>")
-
-@app.get("/results", response_class=HTMLResponse)
-async def results(request: Request):
-    """Serve the results page"""
-    if templates:
-        try:
-            return templates.TemplateResponse("results.html", {"request": request})
-        except Exception as e:
-            logger.error(f"Error serving results page: {e}")
-    return HTMLResponse(content="<h1>Results page not available</h1>")
+@app.get("/")
+async def root():
+    """Root endpoint"""
+    return {"message": "Smart ATS API v2.0 - Professional Resume Analysis System"}
 
 @app.get("/api/health")
 async def health_check():
