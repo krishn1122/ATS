@@ -11,6 +11,8 @@
 # .env.example - template for development
 # .env.railway - template for Railway deployment
 # frontend.env.example - template for Vercel deployment
+# backend.env.railway - template for Railway backend
+# PRODUCTION_ENV.md - production environment guide
 
 # Railway deployment
 .railway/

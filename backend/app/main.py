@@ -38,14 +38,26 @@ app = FastAPI(
 )
 
 # CORS middleware for frontend communication
+# Configure for production deployment
+allowed_origins = [
+    "http://localhost:5000", 
+    "http://127.0.0.1:5000",  # Local development
+]
+
+# Add production origins if available
+if os.getenv("VERCEL_FRONTEND_URL"):
+    allowed_origins.append(os.getenv("VERCEL_FRONTEND_URL"))
+
+# Allow all Vercel domains in production
+if os.getenv("RAILWAY_ENVIRONMENT") == "production":
+    allowed_origins.extend([
+        "https://*.vercel.app",    # Vercel deployment
+        "https://smart-ats-frontend.vercel.app",  # Default frontend URL
+    ])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5000", 
-        "http://127.0.0.1:5000",  # Local development
-        "https://*.vercel.app",    # Vercel deployment
-        "https://your-frontend-domain.vercel.app",  # Replace with your Vercel domain
-    ],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
