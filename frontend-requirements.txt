@@ -1,0 +1,6 @@
+# Frontend Dependencies Only
+Flask==3.0.0
+requests==2.31.0
+
+# Environment and Configuration
+python-dotenv==1.0.0

@@ -18,6 +18,10 @@ BACKEND_URL = os.environ.get('BACKEND_URL', 'http://localhost:8000')
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
 ALLOWED_EXTENSIONS = {'pdf', 'docx'}
 
+# Ensure backend URL doesn't end with slash
+if BACKEND_URL.endswith('/'):
+    BACKEND_URL = BACKEND_URL.rstrip('/')
+
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 
 def allowed_file(filename):

@@ -40,7 +40,12 @@ app = FastAPI(
 # CORS middleware for frontend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5000", "http://127.0.0.1:5000"],  # Flask frontend
+    allow_origins=[
+        "http://localhost:5000", 
+        "http://127.0.0.1:5000",  # Local development
+        "https://*.vercel.app",    # Vercel deployment
+        "https://your-frontend-domain.vercel.app",  # Replace with your Vercel domain
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

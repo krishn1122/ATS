@@ -10,6 +10,7 @@
 # Keep these template files (DO NOT IGNORE):
 # .env.example - template for development
 # .env.railway - template for Railway deployment
+# frontend.env.example - template for Vercel deployment
 
 # Railway deployment
 .railway/
