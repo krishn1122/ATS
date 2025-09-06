@@ -1,15 +1,22 @@
-# Vercel entry point for Flask app
+# Vercel serverless function for Flask app
+from flask import Flask
 import sys
 import os
 
 # Add the root directory to Python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from frontend.app import app
+try:
+    from frontend.app import app
+except ImportError:
+    # Fallback if import fails
+    app = Flask(__name__)
+    
+    @app.route('/')
+    def hello():
+        return "Smart ATS Frontend - Import Error. Please check deployment."
 
 # Export the Flask app for Vercel
-# This is the main WSGI application that Vercel will use
-app = app
-
+# This is required for @vercel/python
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run()
