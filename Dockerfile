@@ -1,4 +1,4 @@
-# Railway Deployment Dockerfile - Updated
+# Railway Backend Deployment Dockerfile
 FROM python:3.11-slim
 
 # Set working directory
@@ -11,23 +11,21 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
-COPY requirements.txt .
+# Copy backend requirements (ensure this file exists)
+COPY backend-requirements.txt ./requirements.txt
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code (excluding .env files for security)
+# Copy backend code only
 COPY backend/ ./backend/
-COPY frontend/ ./frontend/
 COPY config.py .
-COPY main.py .
 
 # Create necessary directories
 RUN mkdir -p logs uploads
 
 # Railway provides PORT environment variable
-EXPOSE 5000
+EXPOSE $PORT
 
-# Run the application
-CMD ["python", "main.py"]
+# Run the backend only - Railway sets PORT automatically
+CMD ["sh", "-c", "uvicorn backend.app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

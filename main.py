@@ -34,7 +34,8 @@ def start_backend():
     """Start the FastAPI backend server"""
     try:
         import uvicorn
-        port = int(os.environ.get("BACKEND_PORT", 8001))
+        # Use Railway's PORT or fallback to 8000
+        port = int(os.environ.get("PORT", os.environ.get("BACKEND_PORT", 8000)))
         uvicorn.run(
             "backend.app.main:app",
             host="0.0.0.0",
@@ -42,8 +43,13 @@ def start_backend():
             log_level="info",
             reload=False
         )
+    except ImportError as e:
+        print(f"Backend startup error: uvicorn not installed - {e}")
+        print("Please install uvicorn: pip install uvicorn[standard]")
+        sys.exit(1)
     except Exception as e:
         print(f"Backend startup error: {e}")
+        sys.exit(1)
 
 def start_frontend():
     """Start the Flask frontend server"""
