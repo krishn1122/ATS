@@ -24,5 +24,8 @@
     "api/index.py": {
       "runtime": "python3.9"
     }
+  },
+  "env": {
+    "BACKEND_URL": "https://ats-production-4ee3.up.railway.app"
   }
 }
