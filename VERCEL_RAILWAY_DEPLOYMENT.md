@@ -59,7 +59,7 @@ Railway will automatically use the `Dockerfile.backend-only` if present, or crea
 ```json
 {
   "env": {
-    "BACKEND_URL": "https://ats-production-4ee3.up.railway.app/"
+    "BACKEND_URL": ""
   }
 }
 ```
