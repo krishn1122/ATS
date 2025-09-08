@@ -487,5 +487,4 @@ For support, please:
 
 ---
 
-**Built with ❤️ for the job-seeking community**
 
